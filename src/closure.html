@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                text-rendering: optimizeLegibility;
+            }
+
+            html {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            body {
+                margin: 40px;
+                width: 1280px;
+                font-size: 20px;
+                font-size: 24px;
+                /* border: solid 1px black; */
+                /* margin: 0 auto; */
+            }
+
+            h1 {
+                margin-bottom: 40px;
+                font-size: 1.5em;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            button {
+                width: 250px;
+                height: 40px;
+            }
+
+            p {
+                font-family: sans-serif;
+                line-height: 1.4rem;
+                line-height: 2.4rem;
+                font-size: 1em;
+                word-spacing: 5%;
+                width: 60%;
+                text-align: justify;
+            }
+
+            .main-text {
+                margin-top: 40px;
+            }
+
+            section {
+                margin-top: 40px;
+            }
+            .slidecontainer {
+                width: 100%;
+            }
+
+            .slider {
+                -webkit-appearance: none;
+                width: 100%;
+                height: 25px;
+                background: #d3d3d3;
+                outline: none;
+                opacity: 0.7;
+                -webkit-transition: 0.2s;
+                transition: opacity 0.2s;
+            }
+
+            .slider:hover {
+                opacity: 1;
+            }
+
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 25px;
+                height: 25px;
+                background: #04aa6d;
+                cursor: pointer;
+            }
+
+            .slider::-moz-range-thumb {
+                width: 25px;
+                height: 25px;
+                background: #04aa6d;
+                cursor: pointer;
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+
+            form > label {
+            }
+
+            form > input {
+                width: 150px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1>Practical Closures</h1>
+        </header>
+        <main>
+            <button id="size-12">size 12</button>
+            <button id="size-14">size 14</button>
+            <button id="size-16">size 16</button>
+
+            <section class="main-text">
+                <p>
+                    Far far away, behind the word mountains, far from the
+                    countries Vokalia and Consonantia, there live the blind
+                    texts. Separated they live in Bookmarksgrove right at the
+                    coast of the Semantics, a large language ocean. A small
+                    river named Duden flows by their place and supplies it with
+                    the necessary regelialia. It is a paradisematic country, in
+                    which roasted parts of sentences fly into your mouth.
+                </p>
+            </section>
+            <section class="">
+                <form>
+                    <label>Default range slider value</label>
+                    <input id="input" value="0" />
+                </form>
+                <div class="slidecontainer">
+                    <p>Default range slider:</p>
+                    <input
+                        id="slider"
+                        type="range"
+                        min="1.0"
+                        max="100"
+                        value="50"
+                    />
+
+                    <p>Custom range slider:</p>
+                    <input
+                        type="range"
+                        min="1"
+                        max="100"
+                        value="50"
+                        class="slider"
+                        id="myRange"
+                    />
+                </div>
+            </section>
+        </main>
+        <script>
+            function makeSizer(size) {
+                return function () {
+                    document.body.style.fontSize = `${size}px`;
+                };
+            }
+
+            const size12 = makeSizer(12);
+            const size14 = makeSizer(14);
+            const size16 = makeSizer(16);
+
+            document.getElementById("size-12").onclick = size12;
+            document.getElementById("size-14").onclick = size14;
+            document.getElementById("size-16").onclick = size16;
+
+            const SliderController = {
+                getValue: function () {
+                    return slider.value;
+                },
+                setValue: function (value) {
+                    slider.value = value;
+                },
+            };
+
+            const InputController = {
+                getValue: function () {
+                    return input.value;
+                },
+                setValue: function (value) {
+                    input.value = value;
+                },
+            };
+
+            function hasSliderValueChanged() {
+                if (SliderController.getValue() != v0) {
+                    const logInput = {
+                        data: [
+                            "slider: ",
+                            true,
+                            v0,
+                            SliderController.getValue(),
+                        ],
+                    };
+                    console.log(logString(logInput));
+                    updateinput();
+                } else {
+                    console.log(false, v0, SliderController.getValue());
+                    // return false;
+                }
+            }
+
+            function updateinput() {
+                input.value = SliderController.getValue();
+            }
+
+            const slider = document.getElementById("slider");
+            slider.addEventListener("click", function () {
+                hasSliderValueChanged();
+            });
+            const input = document.getElementById("input");
+            input.addEventListener("click", function () {
+                console.log("input: ", InputController.getValue());
+            });
+            const v0 = SliderController.getValue();
+            const values = [0, 25, 50, 75, 100];
+
+            // Write a timeout function
+            // set the time out function
+            // clear the timeout function
+            //
+            //
+
+            function logString(input) {
+                const currentDate = new Date();
+                const dateString = currentDate.toISOString();
+                const dateStringArray = dateString.split("T");
+                let _date = dateStringArray[0];
+
+                // prettier-ignore
+                let _time = (function() {
+                  let t = dateStringArray[1];
+                  let length = t.length;
+                  return t.slice(0, length - 5);
+                })();
+
+                if (!input) {
+                    console.log(`${_date} |> ${_time}`);
+                } else if (typeof input == "object") {
+                    console.log(`${_date} |> ${_time} ${[...input.data]}`);
+                } else {
+                    console.log(`${_date} |> ${_time}`);
+                }
+            }
+
+            logString();
+        </script>
+    </body>
+</html>

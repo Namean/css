@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-rendering: optimizeLegibiltiy;
+}
+
+html {
+    font-family: sans-serif;
+}
+
+body {
+    margin: 40px;
+}
